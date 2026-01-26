@@ -1,0 +1,7 @@
+*.lps
+*.res
+/lib
+/Units/backup
+/Units/Sprites/backup
+/Design
+/Binary/.exe

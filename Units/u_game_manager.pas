@@ -103,7 +103,7 @@ function PauseKeyPressed: boolean;
 function MaxSpeed: single;
 
 implementation
-uses LCLType, u_common, u_audio, Math;
+uses LCLType, u_common, u_audio, Math, LazFileutils;
 
 function LeftKeyPressed: boolean;
 begin
@@ -241,10 +241,17 @@ end;
 procedure TGameManager.Load;
 var prop: TProperties;
   t: TStringList;
+  f: string;
 begin
+  f := SaveFolder+'pacman.cfg';
+  if not FileExistsUTF8(f) then begin
+    InitDefaultSavedData;
+    exit;
+  end;
+
   t := TStringList.Create;
   try
-    t.LoadFromFile(SaveFolder+'pacman.cfg');
+    t.LoadFromFile(f);
     prop.SplitFrom(t, '[PACMAN]', '|');
     prop.IntegerValueOf('HighScore', FHighScore, 0);
     prop.WordValueOf('KeyLeft', FKeyLeft, VK_LEFT);

@@ -3,6 +3,8 @@ unit form_main;
 {$mode objfpc}{$H+}
 {$I project_config.cfg}
 
+{$I pacman_define.inc}
+
 interface
 
 uses
@@ -19,8 +21,8 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure FormKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
     procedure Timer1Timer(Sender: TObject);
@@ -28,7 +30,7 @@ type
     procedure ConstructAtlas;
     procedure LoadCommonData;
     procedure FreeCommonData;
-    procedure ProcessApplicationIdle(Sender: TObject; var Done: Boolean);
+    procedure ProcessApplicationIdle(Sender: TObject; var Done: boolean);
   public
 
   end;
@@ -37,38 +39,46 @@ var
   FormMain: TFormMain;
 
 implementation
+
 uses OGLCScene, u_common, screen_game {$ifndef WINDOWED_MODE},LCLIntf{$endif},
   BGRABitmap, BGRABitmapTypes, u_sprite_def, u_game_manager, u_audio,
   screen_mainmenu, screen_intermission, u_sprite_presentation,
-  u_sprite_ghostworm, u_panel_baseoptions, ALSound;
+  u_sprite_ghostworm, u_panel_baseoptions {$IF NOT DEFINED (useuos)}, ALSound{$endif};
 
-{$R *.lfm}
+  {$R *.lfm}
 
-{ TFormMain }
+  { TFormMain }
 
 procedure TFormMain.FormCreate(Sender: TObject);
+var
+  BoundsRect_client: TRect;
 begin
-{$ifdef MAXIMIZE_SCENE_ON_MONITOR}
-  FScene := TOGLCScene.Create(OpenGLControl1, SCREEN_WIDTH_AT_DESIGN_TIME/SCREEN_HEIGHT_AT_DESIGN_TIME);
- {$ifdef WINDOWED_MODE}
-  //ShowWindow(Handle, SW_SHOWNORMAL);
-  WindowState := wsMaximized;
-  BorderIcons := [biSystemMenu,biMinimize,biMaximize];
- {$else}
+  {$ifdef MAXIMIZE_SCENE_ON_MONITOR}
+  FScene := TOGLCScene.Create(OpenGLControl1,
+    SCREEN_WIDTH_AT_DESIGN_TIME / SCREEN_HEIGHT_AT_DESIGN_TIME);
+  {$ifdef WINDOWED_MODE}
+  BoundsRect_client := Monitor.BoundsRect;
+  BoundsRect_client.Width := Monitor.BoundsRect.Width - 100;
+  BoundsRect_client.left := 50;
+  BoundsRect_client.Height := Monitor.BoundsRect.Height - 100;
+  BoundsRect_client.top := 50;
+  BoundsRect := BoundsRect_client;
+  WindowState := wsNormal;
+  {$else}
   BorderIcons := [];
   BorderStyle := bsNone;
   WindowState := wsFullScreen;
   ShowWindow(Handle, SW_SHOWFULLSCREEN);
   BoundsRect := Monitor.BoundsRect;
- {$endif}
-{$else}
+  {$endif}
+  {$else}
   ClientWidth := Trunc(SCREEN_WIDTH_AT_DESIGN_TIME);
   ClientHeight := Trunc(SCREEN_HEIGHT_AT_DESIGN_TIME);
   FScene := TOGLCScene.Create(OpenGLControl1, -1);
   BorderIcons := [biSystemMenu];
   BorderStyle := bsSingle;
   WindowState := wsNormal;
-{$endif}
+  {$endif}
   FScene.DesignPPI := SCREEN_PPI_AT_DESIGN_TIME;
   FScene.LayerCount := LAYER_COUNT;
   FScene.ScreenFadeTime := 0.5;
@@ -77,6 +87,11 @@ begin
   FScene.FontManager.ScanProjectFont(FontsFolder);
 
   Audio := TAudioManager.Create;
+
+  {$IF DEFINED (useuos)}
+  if reslib <> 0 then ShowMessage(
+      'Audio is not ready, the game will run without sound.');
+  {$endif}
 
   Application.OnIdle := @ProcessApplicationIdle;
 end;
@@ -90,27 +105,32 @@ end;
 procedure TFormMain.FormDestroy(Sender: TObject);
 begin
   FScene.Free;
-  FScene := NIL;
+  FScene := nil;
 end;
 
-procedure TFormMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFormMain.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   FScene.ProcessOnKeyDown(Key, Shift);
 end;
 
-procedure TFormMain.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TFormMain.FormKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   FScene.ProcessOnKeyUp(Key, Shift);
 end;
 
 procedure TFormMain.FormShow(Sender: TObject);
-var s: string;
+var
+  s: string;
+  ordir, PA_FileName, SF_FileName: string;
+  res: integer;
 begin
-  if not FScene.OpenGLLibLoaded then
-    ShowMessage('ERROR: OpenGL library could not be loaded...'+LineEnding+
-        'Check if your system is compatible with OpenGL 3.3 core'+LineEnding+
-        'and if the library is well installed on your computer');
 
+  if not FScene.OpenGLLibLoaded then
+    ShowMessage('ERROR: OpenGL library could not be loaded...' + LineEnding +
+      'Check if your system is compatible with OpenGL 3.3 core' + LineEnding +
+      'and if the library is well installed on your computer');
+
+  {$IF NOT DEFINED (useuos)}
   s := '';
   if not ALSManager.OpenALSoftLibraryLoaded then
     s := 'OpenALSoft not found';
@@ -120,6 +140,8 @@ begin
   end;
   if s <> '' then
     ShowMessage(s+LineEnding+'ALSound is not ready, the game will run without sound.');
+  {$endif}
+
 end;
 
 procedure TFormMain.FormUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -129,17 +151,19 @@ end;
 
 procedure TFormMain.Timer1Timer(Sender: TObject);
 begin
-  if FScene <> NIL then begin
-    Caption := 'scene '+FScene.Width.ToString+','+FScene.Height.ToString+
-       '  TileSize '+FTileSize.cx.ToString+','+FTileSize.cy.ToString;
+  if FScene <> nil then
+  begin
+    Caption := 'scene ' + FScene.Width.ToString + ',' + FScene.Height.ToString +
+      '  TileSize ' + FTileSize.cx.ToString + ',' + FTileSize.cy.ToString;
   end;
 end;
 
 procedure TFormMain.ConstructAtlas;
-var ima: TBGRABitmap;
+var
+  ima: TBGRABitmap;
   A: TStringArray;
   i: integer;
-  path: String;
+  path: string;
 {  xx, yy: integer;
   til: TBGRABitmap;
   f: string; }
@@ -155,15 +179,17 @@ begin
 
   // construct the tileset
   path := TexturesFolder;
-  A := NIL;
+  A := nil;
   SetLength(A, 38);
-  for i:=0 to High(A) do
-    if i < 9 then A[i] := path+'Tile0'+(i+1).ToString+'.svg'
-      else A[i] := path+'Tile'+(i+1).ToString+'.svg';
+  for i := 0 to High(A) do
+    if i < 9 then A[i] := path + 'Tile0' + (i + 1).ToString + '.svg'
+    else
+      A[i] := path + 'Tile' + (i + 1).ToString + '.svg';
   texMazeTileSet := FAtlas.AddTileSetFromSVG('MazeTileSet', FTileSize.cx, 3, 16, A);
 
   // ghost dress
-  texGhostDressStretched := FAtlas.AddFromSVG(path+'GhostDressStretched.svg', ScaleW(64), -1);
+  texGhostDressStretched := FAtlas.AddFromSVG(path + 'GhostDressStretched.svg',
+    ScaleW(64), -1);
 
 {  // construct the tileset for TileMap Designer
   ima := TBGRABitmap.Create(32*16, 32*3, BGRAPixelTransparent);
@@ -191,31 +217,31 @@ begin
   TPresentation.LoadTexture(FAtlas);
   TGhostWorm.LoadTexture(FAtlas);
 
-  for i:=0 to High(texFruits) do
-    texFruits[i] := FAtlas.AddFromSVG(TexturesFolder+'Fruit'+(i+1).ToString+'.svg',
-                                      Round(FTileSize.cx*1.5), Round(FTileSize.cy*1.5));
+  for i := 0 to High(texFruits) do
+    texFruits[i] := FAtlas.AddFromSVG(TexturesFolder + 'Fruit' +
+      (i + 1).ToString + '.svg', Round(FTileSize.cx * 1.5),
+      Round(FTileSize.cy * 1.5));
 
-
-  texturedfontTitle := FAtlas.AddTexturedFont(fontdescriptorTitle, charsetTitle, NIL);
-//  fontdescriptorMenu.FontHeight := Round(fontdescriptorMenu.FontHeight/SCREEN_HEIGHT_AT_DESIGN_TIME*FScene.Height);
-  texturedfontMenu := FAtlas.AddTexturedFont(fontdescriptorMenu, charsetMenu, NIL);
-//  fontdescriptorText.FontHeight := Round(FTileSize.cy*1.2); // adjust the font height
-  texturedfontText := FAtlas.AddTexturedFont(fontdescriptorText, charsetText, NIL);
-  texturedfontBonus := FAtlas.AddTexturedFont(fontdescriptorBonus, charsetBonus, NIL);
+  texturedfontTitle := FAtlas.AddTexturedFont(fontdescriptorTitle, charsetTitle, nil);
+  //  fontdescriptorMenu.FontHeight := Round(fontdescriptorMenu.FontHeight/SCREEN_HEIGHT_AT_DESIGN_TIME*FScene.Height);
+  texturedfontMenu := FAtlas.AddTexturedFont(fontdescriptorMenu, charsetMenu, nil);
+  //  fontdescriptorText.FontHeight := Round(FTileSize.cy*1.2); // adjust the font height
+  texturedfontText := FAtlas.AddTexturedFont(fontdescriptorText, charsetText, nil);
+  texturedfontBonus := FAtlas.AddTexturedFont(fontdescriptorBonus, charsetBonus, nil);
 
   FAtlas.TryToPack;
   FAtlas.Build;
 
   // for debug purpose, we save the packed image just to see if all is fine.
   ima := FAtlas.GetPackedImage(False, False);
-  ima.SaveToFile(Application.Location+'atlas.png');
+  ima.SaveToFile(Application.Location + 'atlas.png');
   ima.Free;
   FAtlas.FreeItemImages; // free some memory because we no longer need individual images
 end;
 
 procedure TFormMain.LoadCommonData;
 begin
-  FScene.CreateLogFile(Application.Location+'scene.log', True, NIL, NIL);
+  FScene.CreateLogFile(Application.Location + 'scene.log', True, nil, nil);
   InitializeGlobalVariables;
 
   GameManager := TGameManager.Create;
@@ -240,11 +266,10 @@ begin
   FreeAndNil(Audio);
 end;
 
-procedure TFormMain.ProcessApplicationIdle(Sender: TObject; var Done: Boolean);
+procedure TFormMain.ProcessApplicationIdle(Sender: TObject; var Done: boolean);
 begin
   FScene.DoLoop;
-  Done := FALSE;
+  Done := False;
 end;
 
 end.
-

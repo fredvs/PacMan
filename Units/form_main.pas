@@ -119,11 +119,11 @@ begin
 end;
 
 procedure TFormMain.FormShow(Sender: TObject);
-var
+ {$IF NOT DEFINED (useuos)}
+  var
   s: string;
-  ordir, PA_FileName, SF_FileName: string;
-  res: integer;
-begin
+ {$endif} 
+ begin
 
   if not FScene.OpenGLLibLoaded then
     ShowMessage('ERROR: OpenGL library could not be loaded...' + LineEnding +

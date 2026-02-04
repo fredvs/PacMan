@@ -40,35 +40,27 @@ implementation
 
 constructor TPanelBasePause.Create;
 begin
-  inherited Create(FScene, 100);
+  inherited Create(FScene, 0);
   SetCoordinate(ScaleWF(267.16), ScaleHF(243.58));
   BodyShape.LoadFromString('ShapeType,1,RoundX,30.0000,RoundY,30.0000,Width,364,Height,191,FillData,Visible true Color 000000FF BlendMode 0,BorderData,Visible true Color FDF164FF Width 10.0000 BlendMode 0 LinePos 1');
   BodyShape.ResizeCurrentShape(ScaleW(364), ScaleH(191), True);
-  BackGradient.LoadGradientDataFromString('Visible false RowCount 2 YPos0 0.0000 NodeCount0 3 R0_0XPos 0.0000 R0_0Color DD2276FF R0_1XPos 0.4924 R0_1Color C29DE3FF R0_2XPos 1.0000 R0_2Color DD2276FF YPos1 1.0000 NodeCount1 3 R1_0XPos 0.0000 R1_0Color DD2276FF R1_1XPos 0.4924 R1_1Color C29DE3FF R1_2XPos 1.0000 R1_2Color DD2276FF');
-  BackGradient.ComputeVerticesAndIndices(ScaleW(364), ScaleH(191));
 
   Button1 := TUIButton.Create(FScene);
   with Button1 do begin
     SetChildOf(Self, 0);
     SetCoordinate(0.203*Self.Width, 0.216*Self.Height);
-    BodyShape.LoadFromString('ShapeType,1,RoundX,30.0000,RoundY,30.0000,Width,218,Height,47,FillData,Visible true Color FFFF00FF BlendMode 0,BorderData,Visible true Color FDF164FF Width 5.0000 BlendMode 0 LinePos 1');
-    BodyShape.ResizeCurrentShape(ScaleW(218), ScaleH(47), True);
-    BackGradient.LoadGradientDataFromString('Visible false RowCount 2 YPos0 0.0000 NodeCount0 3 R0_0XPos 0.0000 R0_0Color FEC501FF R0_1XPos 0.4924 R0_1Color F8C001FF R0_2XPos 1.0000 R0_2Color FEC605FF YPos1 1.0000 NodeCount1 3 R1_0XPos 0.0000 R1_0Color FEC501FF R1_1XPos 0.4924 R1_1Color F8C001FF R1_2XPos 1.0000 R1_2Color FEC605FF');
-    BackGradient.ComputeVerticesAndIndices(ScaleW(218), ScaleH(47));
     InitParameters('RESUME GAME', texturedfontText, NIL);
-    _Label.Tint.Value := BGRA(0,0,0);
+    BodyShape.LoadFromString('ShapeType,1,RoundX,30.0000,RoundY,30.0000,Width,218,Height,47,FillData,Visible true Color D08904FF BlendMode 0,BorderData,Visible true Color FDF164FF Width 5.0000 BlendMode 0 LinePos 1');
+    BodyShape.ResizeCurrentShape(ScaleW(196), ScaleH(46), True);
   end;
 
   Button2 := TUIButton.Create(FScene);
   with Button2 do begin
     SetChildOf(Self, 0);
     SetCoordinate(0.274*Self.Width, 0.588*Self.Height);
-    BodyShape.LoadFromString('ShapeType,1,RoundX,30.0000,RoundY,30.0000,Width,171,Height,41,FillData,Visible true Color FFFF00FF BlendMode 0,BorderData,Visible true Color FDF164FF Width 5.0000 BlendMode 0 LinePos 1');
-    BodyShape.ResizeCurrentShape(ScaleW(171), ScaleH(41), True);
-    BackGradient.LoadGradientDataFromString('Visible false RowCount 2 YPos0 0.0000 NodeCount0 3 R0_0XPos 0.0000 R0_0Color FEC501FF R0_1XPos 0.4924 R0_1Color F8C001FF R0_2XPos 1.0000 R0_2Color FEC605FF YPos1 1.0000 NodeCount1 3 R1_0XPos 0.0000 R1_0Color FEC501FF R1_1XPos 0.4924 R1_1Color F8C001FF R1_2XPos 1.0000 R1_2Color FEC605FF');
-    BackGradient.ComputeVerticesAndIndices(ScaleW(171), ScaleH(41));
     InitParameters('MAIN MENU', texturedfontText, NIL);
-    _Label.Tint.Value := BGRA(0,0,0);
+    BodyShape.LoadFromString('ShapeType,1,RoundX,30.0000,RoundY,30.0000,Width,171,Height,41,FillData,Visible true Color D08904FF BlendMode 0,BorderData,Visible true Color FDF164FF Width 5.0000 BlendMode 0 LinePos 1');
+    BodyShape.ResizeCurrentShape(ScaleW(164), ScaleH(46), True);
   end;
 end;
 

@@ -114,7 +114,7 @@ begin
     SetChildOf(Self, 0);
     Caption := 'CHARACTER   /   NICKNAME';
     TexturedFont := texturedfontText;
-    SetCoordinate(1.033*FreeText1.Width, 0.052*FreeText1.Height);
+    SetCoordinate(ScaleWF(339.910*FAdditionnalScale), ScaleHF(1.669*FAdditionnalScale));
   end;
 
   FreeText2 := TFreeText.Create(FScene);
@@ -123,7 +123,7 @@ begin
     Tint.Value := BGRA(255,0,0);
     Caption := '-SHADOW';
     TexturedFont := texturedfontText;
-    SetCoordinate(2.965*FreeText2.Width, 2.271*FreeText2.Height);
+    SetCoordinate(ScaleWF(349.870*FAdditionnalScale), ScaleHF(72.669*FAdditionnalScale));
   end;
 
   FreeText3 := TFreeText.Create(FScene);
@@ -132,7 +132,7 @@ begin
     Tint.Value := BGRA(255,0,0);
     Caption := '"BLINKY"';
     TexturedFont := texturedfontText;
-    SetCoordinate(3.856*FreeText3.Width, 2.271*FreeText3.Height);
+    SetCoordinate(ScaleWF(520.530*FAdditionnalScale), ScaleHF(72.669*FAdditionnalScale));
   end;
 
   FreeText4 := TFreeText.Create(FScene);
@@ -141,7 +141,7 @@ begin
     Tint.Value := BGRA(255,184,255);
     Caption := '-SPEEDY';
     TexturedFont := texturedfontText;
-    SetCoordinate(3.194*FreeText4.Width, 4.771*FreeText4.Height);
+    SetCoordinate(ScaleWF(351.290*FAdditionnalScale), ScaleHF(152.669*FAdditionnalScale));
   end;
 
   FreeText5 := TFreeText.Create(FScene);
@@ -150,7 +150,7 @@ begin
     Tint.Value := BGRA(255,184,255);
     Caption := '"PINKY"';
     TexturedFont := texturedfontText;
-    SetCoordinate(4.449*FreeText5.Width, 4.771*FreeText5.Height);
+    SetCoordinate(ScaleWF(520.530*FAdditionnalScale), ScaleHF(152.669*FAdditionnalScale));
   end;
 
   FreeText6 := TFreeText.Create(FScene);
@@ -159,7 +159,7 @@ begin
     Tint.Value := BGRA(0,255,255);
     Caption := '-BASHFUL';
     TexturedFont := texturedfontText;
-    SetCoordinate(2.702*FreeText6.Width, 7.271*FreeText6.Height);
+    SetCoordinate(ScaleWF(351.290*FAdditionnalScale), ScaleHF(232.669*FAdditionnalScale));
   end;
 
   FreeText7 := TFreeText.Create(FScene);
@@ -168,7 +168,7 @@ begin
     Tint.Value := BGRA(0,255,255);
     Caption := '"INKY"';
     TexturedFont := texturedfontText;
-    SetCoordinate(5.205*FreeText7.Width, 7.271*FreeText7.Height);
+    SetCoordinate(ScaleWF(520.530*FAdditionnalScale), ScaleHF(232.669*FAdditionnalScale));
   end;
 
   FreeText8 := TFreeText.Create(FScene);
@@ -177,7 +177,7 @@ begin
     Tint.Value := BGRA(255,184,81);
     Caption := '-POKEY';
     TexturedFont := texturedfontText;
-    SetCoordinate(3.659*FreeText8.Width, 9.771*FreeText8.Height);
+    SetCoordinate(ScaleWF(351.290*FAdditionnalScale), ScaleHF(312.669*FAdditionnalScale));
   end;
 
   FreeText9 := TFreeText.Create(FScene);
@@ -186,7 +186,7 @@ begin
     Tint.Value := BGRA(255,184,81);
     Caption := '"CLYDE"';
     TexturedFont := texturedfontText;
-    SetCoordinate(4.526*FreeText9.Width, 9.771*FreeText9.Height);
+    SetCoordinate(ScaleWF(520.530*FAdditionnalScale), ScaleHF(312.669*FAdditionnalScale));
   end;
 
   Dot := TSprite.Create(texTile38, False);
@@ -194,7 +194,7 @@ begin
     SetChildOf(Self, 0);
     Frame := 1.0;
     SetSize(ScaleW(Round(32*FAdditionnalScale)), ScaleH(Round(32*FAdditionnalScale)));
-    SetCoordinate(12.168*Dot.Width, 15.645*Dot.Height);
+    SetCoordinate(ScaleWF(389.371*FAdditionnalScale), ScaleHF(500.651*FAdditionnalScale));
   end;
 
   FreeText10 := TFreeText.Create(FScene);
@@ -202,7 +202,7 @@ begin
     SetChildOf(Self, 0);
     Caption := '10 pts';
     TexturedFont := texturedfontText;
-    SetCoordinate(5.007*FreeText10.Width, 15.645*FreeText10.Height);
+    SetCoordinate(ScaleWF(435.625*FAdditionnalScale), ScaleHF(500.651*FAdditionnalScale));
   end;
 
   SuperDot1 := TSprite.Create(texTile37, False);
@@ -210,7 +210,7 @@ begin
     SetChildOf(Self, 0);
     Frame := 1.0;
     SetSize(ScaleW(Round(32*FAdditionnalScale)), ScaleH(Round(32*FAdditionnalScale)));
-    SetCoordinate(12.168*SuperDot1.Width, 17.308*SuperDot1.Height);
+    SetCoordinate(ScaleWF(389.370*FAdditionnalScale), ScaleHF(553.849*FAdditionnalScale));
   end;
 
   FreeText12 := TFreeText.Create(FScene);
@@ -218,7 +218,7 @@ begin
     SetChildOf(Self, 0);
     Caption := '50 pts';
     TexturedFont := texturedfontText;
-    SetCoordinate(4.950*FreeText12.Width, 17.308*FreeText12.Height);
+    SetCoordinate(ScaleWF(435.625*FAdditionnalScale), ScaleHF(553.849*FAdditionnalScale));
   end;
 
   Ghost1 := TSprite.Create(texGhostBody, False);
@@ -226,7 +226,7 @@ begin
     SetChildOf(Self, 0);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(3.906*Ghost1.Width, 0.885*Ghost1.Height);
+    SetCoordinate(ScaleWF(250.000*FAdditionnalScale), ScaleHF(56.664*FAdditionnalScale));
   end;
 
   Ghost1Eye := TSprite.Create(texGhostEyeLeft, False);
@@ -244,7 +244,7 @@ begin
     Tint.Value := BGRA(255,184,255);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(3.906*Ghost2.Width, 2.135*Ghost2.Height);
+    SetCoordinate(ScaleWF(250.000*FAdditionnalScale), ScaleHF(136.665*FAdditionnalScale));
   end;
 
   Ghost2Eye := TSprite.Create(texGhostEyeLeft, False);
@@ -262,7 +262,7 @@ begin
     Tint.Value := BGRA(0,255,255);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(3.906*Ghost3.Width, 3.385*Ghost3.Height);
+    SetCoordinate(ScaleWF(250.000*FAdditionnalScale), ScaleHF(216.665*FAdditionnalScale));
   end;
 
   Ghost3Eye := TSprite.Create(texGhostEyeLeft, False);
@@ -280,7 +280,7 @@ begin
     Tint.Value := BGRA(255,184,81);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(3.906*Ghost4.Width, 4.635*Ghost4.Height);
+    SetCoordinate(ScaleWF(250.000*FAdditionnalScale), ScaleHF(296.665*FAdditionnalScale));
   end;
 
   Ghost4Eye := TSprite.Create(texGhostEyeLeft, False);
@@ -297,7 +297,7 @@ begin
     SetChildOf(Self, 0);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(16.406*Blinky.Width, 6.507*Blinky.Height);
+    SetCoordinate(ScaleWF(1050.000*FAdditionnalScale), ScaleHF(416.444*FAdditionnalScale));
   end;
 
   GhostEyeLeft := TSprite.Create(texGhostEyeLeft, False);
@@ -314,7 +314,7 @@ begin
     Tint.Value := BGRA(255,184,255);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(17.406*Pinky.Width, 6.507*Pinky.Height);
+    SetCoordinate(ScaleWF(1114.000*FAdditionnalScale), ScaleHF(416.444*FAdditionnalScale));
   end;
 
   GhostEyeLeft1 := TSprite.Create(texGhostEyeLeft, False);
@@ -331,7 +331,7 @@ begin
     Tint.Value := BGRA(0,255,255);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(18.406*Inky.Width, 6.507*Inky.Height);
+    SetCoordinate(ScaleWF(1178.000*FAdditionnalScale), ScaleHF(416.444*FAdditionnalScale));
   end;
 
   GhostEyeLeft2 := TSprite.Create(texGhostEyeLeft, False);
@@ -348,7 +348,7 @@ begin
     Tint.Value := BGRA(255,184,81);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(19.406*Clyde.Width, 6.507*Clyde.Height);
+    SetCoordinate(ScaleWF(1242.000*FAdditionnalScale), ScaleHF(416.444*FAdditionnalScale));
   end;
 
   GhostEyeLeft3 := TSprite.Create(texGhostEyeLeft, False);
@@ -365,7 +365,7 @@ begin
     FlipH := True;
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(14.063*PacMan.Width, 6.507*PacMan.Height);
+    SetCoordinate(ScaleWF(900.000*FAdditionnalScale), ScaleHF(416.440*FAdditionnalScale));
   end;
 
   SuperDot2 := TSprite.Create(texTile37, False);
@@ -373,7 +373,7 @@ begin
     SetChildOf(Self, 0);
     Frame := 1.0;
     SetSize(ScaleW(Round(32*FAdditionnalScale)), ScaleH(Round(32*FAdditionnalScale)));
-    SetCoordinate(7.813*SuperDot2.Width, 13.645*SuperDot2.Height);
+    SetCoordinate(ScaleWF(250.000*FAdditionnalScale), ScaleHF(436.624*FAdditionnalScale));
   end;
 
   GhostMouthEye := TSprite.Create(texGhostMouthEye, False);
@@ -414,7 +414,7 @@ begin
     Tint.Value := BGRA(0,255,255);
     Caption := '1600';
     TexturedFont := texturedfontBonus;
-    SetCoordinate(6.817*LabelBonus.Width, 14.448*LabelBonus.Height);
+    SetCoordinate(ScaleWF(395.380*FAdditionnalScale), ScaleHF(433.444*FAdditionnalScale));
   end;
 
 end;

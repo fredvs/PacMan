@@ -44,8 +44,6 @@ begin
   SetCoordinate(ScaleWF(268.80), ScaleHF(658.49));
   BodyShape.LoadFromString('ShapeType,1,RoundX,30.0000,RoundY,30.0000,Width,802,Height,92,FillData,Visible true Color 1E0F07FF BlendMode 0,BorderData,Visible true Color DCDCDCFF Width 3.0000 BlendMode 0 LinePos 1');
   BodyShape.ResizeCurrentShape(ScaleW(408), ScaleH(92), True);
-  BackGradient.LoadGradientDataFromString('Visible false RowCount 0');
-  BackGradient.ComputeVerticesAndIndices(ScaleW(408), ScaleH(92));
 
   Label1 := TUILabel.Create(FScene);
   with Label1 do begin

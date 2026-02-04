@@ -30,7 +30,6 @@ type
 TPanelBaseOptions = class(TUIModalPanel)
 private
   class var texArrow: PTexture;
-  class var FAdditionnalScale: single;
 public
   BOK: TUIButton;
   RadioEasy: TUIRadio;
@@ -62,7 +61,6 @@ implementation
 class procedure TPanelBaseOptions.LoadTexture(aAtlas: TOGLCTextureAtlas);
 var texFolder: string;
 begin
-  FAdditionnalScale := AdditionnalScale;
   texFolder := u_common.TexturesFolder;
   texArrow := aAtlas.RetrieveTextureByFileName('Arrow.svg');
   if texArrow = NIL then

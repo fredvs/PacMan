@@ -11,6 +11,7 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, OpenGLContext, LCLType,
   ExtCtrls;
 
+
 type
 
   { TFormMain }
@@ -50,35 +51,49 @@ uses OGLCScene, u_common, screen_game {$ifndef WINDOWED_MODE},LCLIntf{$endif},
   { TFormMain }
 
 procedure TFormMain.FormCreate(Sender: TObject);
-var
-  BoundsRect_client: TRect;
+{$ifdef Linux}var BoundsRect_client: TRect;{$endif}
 begin
-  {$ifdef MAXIMIZE_SCENE_ON_MONITOR}
-  FScene := TOGLCScene.Create(OpenGLControl1,
-    SCREEN_WIDTH_AT_DESIGN_TIME / SCREEN_HEIGHT_AT_DESIGN_TIME);
-  {$ifdef WINDOWED_MODE}
-  BoundsRect_client := Monitor.BoundsRect;
-  BoundsRect_client.Width := Monitor.BoundsRect.Width - 100;
-  BoundsRect_client.left := 50;
-  BoundsRect_client.Height := Monitor.BoundsRect.Height - 100;
-  BoundsRect_client.top := 50;
-  BoundsRect := BoundsRect_client;
-  WindowState := wsNormal;
-  {$else}
-  BorderIcons := [];
-  BorderStyle := bsNone;
-  WindowState := wsFullScreen;
-  ShowWindow(Handle, SW_SHOWFULLSCREEN);
-  BoundsRect := Monitor.BoundsRect;
-  {$endif}
-  {$else}
-  ClientWidth := Trunc(SCREEN_WIDTH_AT_DESIGN_TIME);
-  ClientHeight := Trunc(SCREEN_HEIGHT_AT_DESIGN_TIME);
-  FScene := TOGLCScene.Create(OpenGLControl1, -1);
-  BorderIcons := [biSystemMenu];
-  BorderStyle := bsSingle;
-  WindowState := wsNormal;
-  {$endif}
+{$ifdef MAXIMIZE_SCENE_ON_MONITOR}
+  FScene := TOGLCScene.Create(OpenGLControl1, SCREEN_WIDTH_AT_DESIGN_TIME/SCREEN_HEIGHT_AT_DESIGN_TIME);
+ {$ifdef WINDOWED_MODE}
+   // WINDOWED MODE
+   {$if defined(Linux)}
+     BoundsRect_client := Monitor.BoundsRect;
+     BoundsRect_client.Width := Monitor.BoundsRect.width - 100;
+     BoundsRect_client.left:= 50;
+     BoundsRect_client.height := Monitor.BoundsRect.height - 100;
+     BoundsRect_client.top:= 50;
+     BoundsRect := BoundsRect_client;
+     WindowState := wsNormal;
+   {$elseif defined(Windows)}
+     WindowState := wsMaximized;
+     BorderIcons := [biSystemMenu, biMinimize, biMaximize]; // necessary to see the task bar
+   {$elseif defined(Darwin)}
+     BorderIcons := [biSystemMenu,biMinimize];
+     BoundsRect := Monitor.BoundsRect;
+   {$endif}
+
+ {$else}
+   // FULLSCREEN MODE
+   {$if defined(Windows) or defined(Linux)}
+     BorderIcons := [];
+     BorderStyle := bsNone;
+     WindowState := wsFullScreen;
+     ShowWindow(Handle, SW_SHOWFULLSCREEN);
+     BoundsRect := Monitor.BoundsRect;
+   {$elseif defined(Darwin)}
+     BoundsRect := Monitor.BoundsRect;
+   {$endif}
+ {$endif}
+{$else}
+     // WINDOWED MODE WITH FIXED SIZE
+     ClientWidth := Trunc(SCREEN_WIDTH_AT_DESIGN_TIME);
+     ClientHeight := Trunc(SCREEN_HEIGHT_AT_DESIGN_TIME);
+     FScene := TOGLCScene.Create(OpenGLControl1, -1);
+     BorderIcons := [biSystemMenu];
+     BorderStyle := bsSingle;
+     WindowState := wsNormal;
+{$endif}
   FScene.DesignPPI := SCREEN_PPI_AT_DESIGN_TIME;
   FScene.LayerCount := LAYER_COUNT;
   FScene.ScreenFadeTime := 0.5;
@@ -87,11 +102,6 @@ begin
   FScene.FontManager.ScanProjectFont(FontsFolder);
 
   Audio := TAudioManager.Create;
-
-  {$IF DEFINED (useuos)}
-  if reslib <> 0 then ShowMessage(
-      'Audio is not ready, the game will run without sound.');
-  {$endif}
 
   Application.OnIdle := @ProcessApplicationIdle;
 end;
@@ -151,12 +161,12 @@ end;
 
 procedure TFormMain.Timer1Timer(Sender: TObject);
 begin
-  if FScene <> nil then
-  begin
-    Caption := 'scene ' + FScene.Width.ToString + ',' + FScene.Height.ToString +
-      '  TileSize ' + FTileSize.cx.ToString + ',' + FTileSize.cy.ToString;
+  if FScene <> NIL then begin
+    Caption := 'Window '+ClientWidth.ToString+','+ClientHeight.ToString+'  scene '+FScene.Width.ToString+','+FScene.Height.ToString+
+       '  TileSize '+FTileSize.cx.ToString+','+FTileSize.cy.ToString;
   end;
 end;
+
 
 procedure TFormMain.ConstructAtlas;
 var

@@ -96,7 +96,7 @@ begin
     SetChildOf(Self, 0);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(-0.500*GhostBody.Width, -0.500*GhostBody.Height);
+    SetCoordinate(ScaleWF(-32.000*FAdditionnalScale), ScaleHF(-32.000*FAdditionnalScale));
   end;
 
   GhostEyeDown := TSprite.Create(texGhostEyeDown, False);
@@ -104,7 +104,7 @@ begin
     SetChildOf(Self, 1);
     Frame := 1.0;
     SetSize(ScaleW(Round(39*FAdditionnalScale)), ScaleH(Round(19*FAdditionnalScale)));
-    SetCoordinate(-0.500*GhostEyeDown.Width, -0.263*GhostEyeDown.Height);
+    SetCoordinate(ScaleWF(-19.500*FAdditionnalScale), ScaleHF(-5.000*FAdditionnalScale));
   end;
 
   GhostEyeLeft := TSprite.Create(texGhostEyeLeft, False);
@@ -112,7 +112,7 @@ begin
     SetChildOf(Self, 1);
     Frame := 1.0;
     SetSize(ScaleW(Round(39*FAdditionnalScale)), ScaleH(Round(19*FAdditionnalScale)));
-    SetCoordinate(-0.664*GhostEyeLeft.Width, -0.776*GhostEyeLeft.Height);
+    SetCoordinate(ScaleWF(-25.900*FAdditionnalScale), ScaleHF(-14.750*FAdditionnalScale));
   end;
 
   GhostEyeRight := TSprite.Create(texGhostEyeRight, False);
@@ -120,7 +120,7 @@ begin
     SetChildOf(Self, 1);
     Frame := 1.0;
     SetSize(ScaleW(Round(39*FAdditionnalScale)), ScaleH(Round(19*FAdditionnalScale)));
-    SetCoordinate(-0.338*GhostEyeRight.Width, -0.776*GhostEyeRight.Height);
+    SetCoordinate(ScaleWF(-13.200*FAdditionnalScale), ScaleHF(-14.750*FAdditionnalScale));
   end;
 
   GhostEyeUp := TSprite.Create(texGhostEyeUp, False);
@@ -128,7 +128,7 @@ begin
     SetChildOf(Self, 1);
     Frame := 1.0;
     SetSize(ScaleW(Round(39*FAdditionnalScale)), ScaleH(Round(19*FAdditionnalScale)));
-    SetCoordinate(-0.500*GhostEyeUp.Width, -1.284*GhostEyeUp.Height);
+    SetCoordinate(ScaleWF(-19.500*FAdditionnalScale), ScaleHF(-24.400*FAdditionnalScale));
   end;
 
   GhostMouthEye := TSprite.Create(texGhostMouthEye, False);
@@ -136,7 +136,7 @@ begin
     SetChildOf(Self, 1);
     Frame := 1.0;
     SetSize(ScaleW(Round(46*FAdditionnalScale)), ScaleH(Round(24*FAdditionnalScale)));
-    SetCoordinate(-0.500*GhostMouthEye.Width, -0.433*GhostMouthEye.Height);
+    SetCoordinate(ScaleWF(-23.000*FAdditionnalScale), ScaleHF(-10.400*FAdditionnalScale));
   end;
 
   DressStretched := TSprite.Create(texGhostDressStretched, False);
@@ -144,7 +144,7 @@ begin
     SetChildOf(Self, -1);
     Frame := 1.0;
     SetSize(ScaleW(Round(64*FAdditionnalScale)), ScaleH(Round(64*FAdditionnalScale)));
-    SetCoordinate(-0.500*DressStretched.Width, -0.500*DressStretched.Height);
+    SetCoordinate(ScaleWF(-32.000*FAdditionnalScale), ScaleHF(-32.000*FAdditionnalScale));
   end;
 
   GhostLeg := TSprite.Create(texGhostLeg, False);

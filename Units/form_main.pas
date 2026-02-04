@@ -51,13 +51,16 @@ uses OGLCScene, u_common, screen_game {$ifndef WINDOWED_MODE},LCLIntf{$endif},
   { TFormMain }
 
 procedure TFormMain.FormCreate(Sender: TObject);
-{$ifdef Linux}var BoundsRect_client: TRect;{$endif}
+{$ifdef unix}var BoundsRect_client: TRect;{$endif}
 begin
 {$ifdef MAXIMIZE_SCENE_ON_MONITOR}
   FScene := TOGLCScene.Create(OpenGLControl1, SCREEN_WIDTH_AT_DESIGN_TIME/SCREEN_HEIGHT_AT_DESIGN_TIME);
  {$ifdef WINDOWED_MODE}
    // WINDOWED MODE
-   {$if defined(Linux)}
+   {$if defined(Darwin)}
+     BorderIcons := [biSystemMenu,biMinimize];
+     BoundsRect := Monitor.BoundsRect;
+   {$elseif defined(Unix)}
      BoundsRect_client := Monitor.BoundsRect;
      BoundsRect_client.Width := Monitor.BoundsRect.width - 100;
      BoundsRect_client.left:= 50;
@@ -68,20 +71,17 @@ begin
    {$elseif defined(Windows)}
      WindowState := wsMaximized;
      BorderIcons := [biSystemMenu, biMinimize, biMaximize]; // necessary to see the task bar
-   {$elseif defined(Darwin)}
-     BorderIcons := [biSystemMenu,biMinimize];
-     BoundsRect := Monitor.BoundsRect;
    {$endif}
 
  {$else}
    // FULLSCREEN MODE
-   {$if defined(Windows) or defined(Linux)}
+   {$if defined(Darwin)}
+     BoundsRect := Monitor.BoundsRect;
+   {$elseif defined(Windows) or defined(Unix)}
      BorderIcons := [];
      BorderStyle := bsNone;
      WindowState := wsFullScreen;
      ShowWindow(Handle, SW_SHOWFULLSCREEN);
-     BoundsRect := Monitor.BoundsRect;
-   {$elseif defined(Darwin)}
      BoundsRect := Monitor.BoundsRect;
    {$endif}
  {$endif}
@@ -103,10 +103,10 @@ begin
 
   Audio := TAudioManager.Create;
 
-{$IF DEFINED (useuos)}
+  {$IF DEFINED (useuos)}
   if reslib <> 0 then ShowMessage(
       'Audio is not ready, the game will run without sound.');
-{$endif}
+  {$endif}
 
   Application.OnIdle := @ProcessApplicationIdle;
 end;

@@ -103,6 +103,11 @@ begin
 
   Audio := TAudioManager.Create;
 
+{$IF DEFINED (useuos)}
+  if reslib <> 0 then ShowMessage(
+      'Audio is not ready, the game will run without sound.');
+{$endif}
+
   Application.OnIdle := @ProcessApplicationIdle;
 end;
 

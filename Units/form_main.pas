@@ -51,7 +51,7 @@ uses OGLCScene, u_common, screen_game {$ifndef WINDOWED_MODE},LCLIntf{$endif},
   { TFormMain }
 
 procedure TFormMain.FormCreate(Sender: TObject);
-{$ifdef unix}var BoundsRect_client: TRect;{$endif}
+ {$if defined(Unix) and not defined(Darwin)}var BoundsRect_client: TRect;{$endif}
 begin
 {$ifdef MAXIMIZE_SCENE_ON_MONITOR}
   FScene := TOGLCScene.Create(OpenGLControl1, SCREEN_WIDTH_AT_DESIGN_TIME/SCREEN_HEIGHT_AT_DESIGN_TIME);

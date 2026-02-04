@@ -1,3 +1,16 @@
+This is a derivative version of https://github.com/Lulu04/PacMan.
+
+It offers the option to choose uos as the audio manager.
+
+The file `/PacMan/Units/pacman_define.inc` allows you to choose the audio system to use.
+
+Here is its content:
+
+`{$DEFINE useuos} // Uncomment to use UOS and comment out to use Alsound Audio`.
+
+You can modify it to choose the audio system to use.
+
+Note that if you make any changes, you will have to recompile everything (using the `-B` parameter) because FPC sometimes ignores changes made to `.inc` files.
 # PAC-MAN
 a clone of the original game written entirely in FreePascal with Lazarus IDE.  
 ## Dependencies
